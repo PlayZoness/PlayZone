@@ -1,14 +1,600 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PlayZone</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PlayZones — игровой маркетплейс</title>
+  <meta name="description" content="PlayZones — маркетплейс игровых товаров и услуг." />
+  <style>
+    :root{
+      --bg:#0b0d10;
+      --panel:#12161b;
+      --panel-2:#171c22;
+      --line:#272d35;
+      --text:#f7f8fa;
+      --muted:#9aa4af;
+      --orange:#ff7a1a;
+      --orange-2:#ff9e49;
+      --orange-soft:rgba(255,122,26,.13);
+      --green:#3ed598;
+      --red:#ff6464;
+      --shadow:0 18px 50px rgba(0,0,0,.28);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 80% -10%, rgba(255,122,26,.12), transparent 28%),
+        radial-gradient(circle at 20% 10%, rgba(255,122,26,.08), transparent 22%),
+        var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+    button,input,select{font:inherit}
+    button{cursor:pointer}
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1240px,calc(100% - 32px));margin:auto}
+    .topbar{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(18px);
+      background:rgba(11,13,16,.82);
+      border-bottom:1px solid rgba(255,255,255,.05);
+    }
+    .nav{
+      min-height:74px;display:flex;align-items:center;gap:24px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:11px;font-weight:900;font-size:22px;letter-spacing:-.5px;
+      white-space:nowrap;
+    }
+    .brand-mark{
+      width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--orange),#ffb36c);
+      box-shadow:0 10px 30px rgba(255,122,26,.28);
+      color:#1b1007;font-weight:1000;
+    }
+    .search{
+      flex:1;position:relative;max-width:620px;
+    }
+    .search input{
+      width:100%;height:46px;border:1px solid var(--line);border-radius:14px;
+      padding:0 48px 0 44px;background:var(--panel);color:var(--text);outline:none;
+    }
+    .search input:focus{border-color:rgba(255,122,26,.55);box-shadow:0 0 0 4px var(--orange-soft)}
+    .search .icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);opacity:.6}
+    .search kbd{
+      position:absolute;right:12px;top:50%;transform:translateY(-50%);
+      border:1px solid var(--line);background:#0d1014;color:#7f8993;border-radius:7px;padding:2px 7px;font-size:12px
+    }
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .btn{
+      border:1px solid var(--line);background:var(--panel);color:var(--text);
+      border-radius:12px;padding:10px 14px;font-weight:700;transition:.2s;
+    }
+    .btn:hover{transform:translateY(-1px);border-color:#3a424d}
+    .btn-primary{
+      background:linear-gradient(135deg,var(--orange),#ff9140);border-color:transparent;color:#1b0d03;
+      box-shadow:0 9px 24px rgba(255,122,26,.22)
+    }
+    .mobile-menu{display:none}
+    .hero{
+      padding:54px 0 28px;
+      display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:stretch;
+    }
+    .hero-card,.promo{
+      border:1px solid var(--line);border-radius:26px;overflow:hidden;position:relative;
+      box-shadow:var(--shadow);
+    }
+    .hero-card{
+      padding:42px;
+      background:
+        radial-gradient(circle at 95% 20%, rgba(255,122,26,.35), transparent 26%),
+        linear-gradient(135deg,#161a20,#101318 70%);
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 11px;border-radius:99px;
+      background:var(--orange-soft);color:#ffad67;font-weight:800;font-size:13px
+    }
+    .hero h1{font-size:clamp(38px,5vw,66px);line-height:.98;letter-spacing:-2.8px;max-width:720px;margin:18px 0 18px}
+    .hero p{font-size:17px;color:var(--muted);max-width:650px;line-height:1.65;margin:0}
+    .hero-cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+    .hero-stats{display:flex;gap:22px;flex-wrap:wrap;margin-top:30px;color:var(--muted);font-size:14px}
+    .hero-stats b{display:block;color:var(--text);font-size:21px}
+    .promo{
+      padding:24px;
+      background:linear-gradient(160deg,#1a1613,#101318);
+      display:flex;flex-direction:column;justify-content:space-between;
+    }
+    .promo-top{display:flex;justify-content:space-between;align-items:center}
+    .promo-badge{font-size:12px;color:#ffd6b4;background:rgba(255,122,26,.11);padding:7px 9px;border-radius:9px}
+    .promo-game{font-size:58px;filter:drop-shadow(0 12px 24px rgba(255,122,26,.22))}
+    .promo h3{font-size:28px;margin:10px 0 6px}
+    .promo p{margin:0;color:var(--muted);line-height:1.5}
+    .promo-price{margin-top:22px;display:flex;justify-content:space-between;align-items:end}
+    .promo-price strong{font-size:34px}.promo-price span{color:#8f9aa5;font-size:14px}
+    .section{padding:24px 0}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:16px}
+    .section-head h2{margin:0;font-size:26px;letter-spacing:-.8px}
+    .section-head p{margin:4px 0 0;color:var(--muted);font-size:14px}
+    .link{color:#ffab66;font-weight:800;font-size:14px}
+    .categories{
+      display:grid;grid-template-columns:repeat(6,1fr);gap:12px
+    }
+    .cat{
+      padding:17px;border:1px solid var(--line);border-radius:16px;background:var(--panel);
+      display:flex;gap:12px;align-items:center;transition:.2s;
+    }
+    .cat:hover{border-color:rgba(255,122,26,.42);transform:translateY(-2px)}
+    .cat-icon{width:42px;height:42px;border-radius:12px;background:#1a2027;display:grid;place-items:center;font-size:21px}
+    .cat strong{display:block;font-size:14px}.cat span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+    .layout{display:grid;grid-template-columns:230px 1fr;gap:18px}
+    .sidebar{
+      align-self:start;position:sticky;top:92px;
+      background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px
+    }
+    .filter-title{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#7f8a96;margin-bottom:12px}
+    .filter-group + .filter-group{margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+    .check{display:flex;align-items:center;gap:9px;padding:7px 0;color:#d6dbe0;font-size:14px}
+    .check input{accent-color:var(--orange)}
+    .range-row{display:flex;gap:8px}
+    .range-row input{
+      width:50%;background:#0e1115;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:9px 10px;outline:none
+    }
+    .market-top{
+      display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px;
+      flex-wrap:wrap
+    }
+    .tabs{display:flex;gap:8px;overflow:auto;padding-bottom:3px}
+    .tab{
+      border:1px solid var(--line);background:var(--panel);color:#a9b3bc;border-radius:999px;padding:9px 13px;white-space:nowrap;font-weight:700;font-size:13px
+    }
+    .tab.active,.tab:hover{background:var(--orange-soft);border-color:rgba(255,122,26,.38);color:#ffad67}
+    .sort{
+      background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:11px;padding:10px 12px
+    }
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .card{
+      background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;
+      transition:.22s;position:relative;
+    }
+    .card:hover{transform:translateY(-3px);border-color:#39414b;box-shadow:0 16px 34px rgba(0,0,0,.22)}
+    .thumb{
+      height:145px;display:flex;align-items:center;justify-content:center;font-size:60px;
+      background:
+        radial-gradient(circle at 25% 20%, rgba(255,122,26,.30), transparent 38%),
+        linear-gradient(135deg,#1d232a,#11151a);
+      border-bottom:1px solid var(--line)
+    }
+    .card-body{padding:14px}
+    .tag{
+      display:inline-flex;padding:6px 8px;border-radius:8px;background:#1b2027;color:#aeb8c2;font-size:11px;font-weight:800;margin-bottom:9px
+    }
+    .title{font-size:15px;font-weight:800;line-height:1.35;min-height:41px}
+    .seller{display:flex;align-items:center;gap:8px;margin-top:11px}
+    .avatar{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#ffb36c,#ff7a1a);display:grid;place-items:center;color:#271105;font-size:11px;font-weight:900}
+    .seller span{font-size:12px;color:var(--muted)}
+    .rating{margin-left:auto;color:#f0bd62;font-size:12px}
+    .bottom{display:flex;justify-content:space-between;align-items:end;margin-top:13px}
+    .price{font-size:19px;font-weight:900}
+    .price small{font-size:12px;color:#79838e;font-weight:600}
+    .buy{
+      border:0;background:var(--orange-soft);color:#ffac67;font-weight:900;border-radius:10px;padding:9px 11px
+    }
+    .buy:hover{background:var(--orange);color:#241205}
+    .banner{
+      margin:28px 0 8px;padding:22px;border:1px solid rgba(255,122,26,.25);border-radius:20px;
+      background:linear-gradient(110deg,rgba(255,122,26,.14),rgba(255,122,26,.04) 55%, transparent);
+      display:flex;justify-content:space-between;gap:20px;align-items:center
+    }
+    .banner h3{margin:0 0 5px;font-size:22px}.banner p{margin:0;color:var(--muted);font-size:14px}
+    .features{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .feature{padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
+    .feature-icon{font-size:22px}.feature h4{margin:12px 0 7px}.feature p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+    footer{margin-top:42px;border-top:1px solid var(--line);padding:32px 0 45px;color:var(--muted)}
+    .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .foot strong{color:var(--text)} .foot-links{display:flex;gap:18px;font-size:14px}
+    .modal{
+      position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:100;padding:20px
+    }
+    .modal.show{display:flex}
+    .modal-box{width:min(520px,100%);background:#12161b;border:1px solid #303741;border-radius:20px;padding:22px;box-shadow:var(--shadow)}
+    .modal-head{display:flex;justify-content:space-between;gap:20px;align-items:center}.modal-head h3{margin:0}
+    .close{border:0;background:#1a2026;color:#aeb7c0;width:36px;height:36px;border-radius:10px}
+    .modal-product{margin:18px 0;padding:14px;border-radius:15px;background:#171c22;border:1px solid var(--line)}
+    .modal-price{display:flex;justify-content:space-between;align-items:center}
+    .toast{
+      position:fixed;right:20px;bottom:20px;background:#171c22;border:1px solid #3a424b;border-radius:14px;
+      padding:13px 15px;display:none;z-index:120;box-shadow:var(--shadow)
+    }
+    .toast.show{display:block;animation:toast .2s ease}
+    @keyframes toast{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+    @media(max-width:1050px){
+      .hero{grid-template-columns:1fr}
+      .categories{grid-template-columns:repeat(3,1fr)}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .features{grid-template-columns:repeat(2,1fr)}
+      .layout{grid-template-columns:1fr}
+      .sidebar{display:none}
+    }
+    @media(max-width:720px){
+      .container{width:min(100% - 20px,1240px)}
+      .nav{gap:10px;min-height:66px}
+      .brand{font-size:18px}
+      .search{order:3;flex-basis:100%}
+      .nav{flex-wrap:wrap;padding:10px 0}
+      .nav-actions .btn{display:none}
+      .mobile-menu{display:block}
+      .hero-card{padding:28px 22px}.hero h1{font-size:42px;letter-spacing:-1.8px}
+      .categories{grid-template-columns:repeat(2,1fr)}
+      .grid{grid-template-columns:1fr}
+      .features{grid-template-columns:1fr}
+      .banner{align-items:flex-start;flex-direction:column}
+      .section{padding:18px 0}
+    }
+  </style>
 </head>
 <body>
+  <header class="topbar">
+    <div class="container nav">
+      <a href="#" class="brand">
+        <span class="brand-mark">PZ</span>
+        <span>PlayZones</span>
+      </a>
 
-    <h1>Добро пожаловать в PlayZone!</h1>
-    <p>Мой первый сайт на GitHub Pages 🎮</p>
+      <div class="search">
+        <span class="icon">⌕</span>
+        <input id="searchInput" type="search" placeholder="Найти игру, валюту, аккаунт или услугу..." />
+        <kbd>Ctrl K</kbd>
+      </div>
 
+      <div class="nav-actions">
+        <button class="btn" id="sellBtn">＋ Продать</button>
+        <button class="btn" id="cartBtn">🛒 Корзина <span id="cartCount">0</span></button>
+        <button class="btn btn-primary" id="loginBtn">Войти</button>
+        <button class="btn mobile-menu">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <span class="eyebrow">🔥 Игровой маркетплейс</span>
+        <h1>Игровые товары.<br>Услуги. Всё в одном месте.</h1>
+        <p>Покупай валюту, предметы, аккаунты и игровые услуги у продавцов со всей платформы. Быстрый поиск, понятные цены и удобное оформление.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#market">Смотреть предложения →</a>
+          <button class="btn" id="howBtn">Как это работает?</button>
+        </div>
+        <div class="hero-stats">
+          <div><b>12 840+</b> объявлений</div>
+          <div><b>4 900+</b> продавцов</div>
+          <div><b>24/7</b> поддержка</div>
+        </div>
+      </div>
+
+      <div class="promo">
+        <div class="promo-top">
+          <span class="promo-badge">ПРЕДЛОЖЕНИЕ ДНЯ</span>
+          <span class="promo-game">🎮</span>
+        </div>
+        <div>
+          <h3>Пополнение Steam</h3>
+          <p>Мгновенное пополнение с отзывами продавца и прозрачной комиссией.</p>
+          <div class="promo-price">
+            <strong>от 499 ₽</strong>
+            <span>⚡ быстро</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Категории</h2>
+          <p>Немного всего, чтобы быстро найти нужное</p>
+        </div>
+        <a class="link" href="#market">Все категории →</a>
+      </div>
+      <div class="categories">
+        <a class="cat" href="#market" data-filter="Валюта"><span class="cat-icon">💰</span><span><strong>Игровая валюта</strong><span>GTA, Roblox и др.</span></span></a>
+        <a class="cat" href="#market" data-filter="Предметы"><span class="cat-icon">🧤</span><span><strong>Предметы</strong><span>Скины и лут</span></span></a>
+        <a class="cat" href="#market" data-filter="Аккаунты"><span class="cat-icon">👤</span><span><strong>Аккаунты</strong><span>Игры и сервисы</span></span></a>
+        <a class="cat" href="#market" data-filter="Услуги"><span class="cat-icon">⚡</span><span><strong>Услуги</strong><span>Прокачка и помощь</span></span></a>
+        <a class="cat" href="#market" data-filter="Подписки"><span class="cat-icon">💎</span><span><strong>Подписки</strong><span>Game Pass и др.</span></span></a>
+        <a class="cat" href="#market" data-filter="Подарки"><span class="cat-icon">🎁</span><span><strong>Подарки</strong><span>Ключи и бонусы</span></span></a>
+      </div>
+    </section>
+
+    <section class="section" id="market">
+      <div class="section-head">
+        <div>
+          <h2>Свежие предложения</h2>
+          <p id="resultsText">Показываем популярные лоты</p>
+        </div>
+      </div>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <div class="filter-title">Фильтры</div>
+          <div class="filter-group">
+            <label class="check"><input type="checkbox" data-check="fast"> ⚡ Быстрая выдача</label>
+            <label class="check"><input type="checkbox" data-check="safe"> 🛡️ Безопасная сделка</label>
+            <label class="check"><input type="checkbox" data-check="rating"> ⭐ 4.9+</label>
+          </div>
+          <div class="filter-group">
+            <div class="filter-title">Цена</div>
+            <div class="range-row">
+              <input id="minPrice" type="number" placeholder="от">
+              <input id="maxPrice" type="number" placeholder="до">
+            </div>
+          </div>
+          <div class="filter-group">
+            <div class="filter-title">Тип</div>
+            <label class="check"><input type="checkbox" data-type="Товар"> Товары</label>
+            <label class="check"><input type="checkbox" data-type="Услуга"> Услуги</label>
+          </div>
+        </aside>
+
+        <div>
+          <div class="market-top">
+            <div class="tabs" id="tabs">
+              <button class="tab active" data-tab="Все">Все</button>
+              <button class="tab" data-tab="Валюта">Валюта</button>
+              <button class="tab" data-tab="Предметы">Предметы</button>
+              <button class="tab" data-tab="Аккаунты">Аккаунты</button>
+              <button class="tab" data-tab="Услуги">Услуги</button>
+              <button class="tab" data-tab="Подписки">Подписки</button>
+            </div>
+            <select class="sort" id="sort">
+              <option value="popular">По популярности</option>
+              <option value="cheap">Сначала дешевле</option>
+              <option value="expensive">Сначала дороже</option>
+              <option value="rating">По рейтингу</option>
+            </select>
+          </div>
+
+          <div class="grid" id="productGrid"></div>
+
+          <div class="banner">
+            <div>
+              <h3>Хочешь заработать на играх?</h3>
+              <p>Размещай свои товары и услуги, общайся с покупателями и развивай профиль продавца.</p>
+            </div>
+            <button class="btn btn-primary" id="sellBannerBtn">Создать объявление</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>Почему PlayZones</h2>
+          <p>Основные функции — без лишнего</p>
+        </div>
+      </div>
+      <div class="features">
+        <div class="feature"><div class="feature-icon">🛡️</div><h4>Безопасная сделка</h4><p>Деньги удерживаются до подтверждения заказа, а спор можно открыть через поддержку.</p></div>
+        <div class="feature"><div class="feature-icon">⚡</div><h4>Быстрая выдача</h4><p>Отдельные лоты можно получить автоматически сразу после оплаты.</p></div>
+        <div class="feature"><div class="feature-icon">💬</div><h4>Чат с продавцом</h4><p>Уточняй детали заказа и получай помощь прямо на странице предложения.</p></div>
+        <div class="feature"><div class="feature-icon">⭐</div><h4>Отзывы</h4><p>Смотри рейтинг, количество сделок и отзывы перед покупкой.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container foot">
+      <div><strong>PlayZones</strong> · игровой маркетплейс</div>
+      <div class="foot-links"><a href="#market">Каталог</a><a href="#">Поддержка</a><a href="#">Правила</a><a href="#">О нас</a></div>
+    </div>
+  </footer>
+
+  <div class="modal" id="modal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="modalTitle">Оформление</h3>
+        <button class="close" id="closeModal">✕</button>
+      </div>
+      <div class="modal-product" id="modalProduct"></div>
+      <div style="display:flex;gap:10px;justify-content:flex-end">
+        <button class="btn" id="cancelModal">Отмена</button>
+        <button class="btn btn-primary" id="confirmModal">Продолжить</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const products = [
+      {id:1, cat:"Валюта", type:"Товар", title:"GTA Online — 5 000 000 GTA$", seller:"OrangeFox", rating:4.98, price:799, icon:"💰", fast:true, safe:true},
+      {id:2, cat:"Предметы", type:"Товар", title:"CS2 — кейс + набор перчаток", seller:"PixelShop", rating:4.96, price:1490, icon:"🧤", fast:true, safe:true},
+      {id:3, cat:"Аккаунты", type:"Товар", title:"Fortnite аккаунт · 78 скинов", seller:"NovaStore", rating:4.94, price:2190, icon:"👤", fast:false, safe:true},
+      {id:4, cat:"Услуги", type:"Услуга", title:"Minecraft — помощь с постройкой сервера", seller:"BuildMaster", rating:5.00, price:650, icon:"⚡", fast:false, safe:true},
+      {id:5, cat:"Подписки", type:"Товар", title:"Xbox Game Pass Ultimate · 1 месяц", seller:"GameRush", rating:4.92, price:399, icon:"💎", fast:true, safe:true},
+      {id:6, cat:"Валюта", type:"Товар", title:"Roblox — 1700 Robux", seller:"RbxPlanet", rating:4.89, price:999, icon:"🪙", fast:true, safe:false},
+      {id:7, cat:"Услуги", type:"Услуга", title:"Valorant — подбор команды и коучинг", seller:"AimCoach", rating:4.97, price:1200, icon:"🎯", fast:false, safe:true},
+      {id:8, cat:"Подарки", type:"Товар", title:"Steam Gift Card — 1000 ₽", seller:"OrangeFox", rating:4.98, price:1050, icon:"🎁", fast:true, safe:true},
+      {id:9, cat:"Предметы", type:"Товар", title:"Dota 2 — Arcana предмет", seller:"GGTrade", rating:4.91, price:1690, icon:"🌀", fast:true, safe:true}
+    ];
+
+    let activeTab = "Все";
+    let cart = [];
+    let selectedProduct = null;
+
+    const grid = document.getElementById("productGrid");
+    const searchInput = document.getElementById("searchInput");
+    const sort = document.getElementById("sort");
+    const minPrice = document.getElementById("minPrice");
+    const maxPrice = document.getElementById("maxPrice");
+    const resultsText = document.getElementById("resultsText");
+    const cartCount = document.getElementById("cartCount");
+    const modal = document.getElementById("modal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalProduct = document.getElementById("modalProduct");
+    const toast = document.getElementById("toast");
+
+    function money(n){ return n.toLocaleString("ru-RU") + " ₽"; }
+
+    function render(){
+      let list = [...products];
+      const q = searchInput.value.trim().toLowerCase();
+
+      if(activeTab !== "Все") list = list.filter(p => p.cat === activeTab);
+      if(q) list = list.filter(p => (p.title + " " + p.seller + " " + p.cat).toLowerCase().includes(q));
+
+      const min = Number(minPrice.value || 0);
+      const max = Number(maxPrice.value || Infinity);
+      list = list.filter(p => p.price >= min && p.price <= max);
+
+      const checks = [...document.querySelectorAll("[data-check]")];
+      if(checks.some(c => c.checked && c.dataset.check === "fast")) list = list.filter(p => p.fast);
+      if(checks.some(c => c.checked && c.dataset.check === "safe")) list = list.filter(p => p.safe);
+      if(checks.some(c => c.checked && c.dataset.check === "rating")) list = list.filter(p => p.rating >= 4.9);
+
+      const types = [...document.querySelectorAll("[data-type]:checked")].map(x => x.dataset.type);
+      if(types.length) list = list.filter(p => types.includes(p.type));
+
+      if(sort.value === "cheap") list.sort((a,b)=>a.price-b.price);
+      if(sort.value === "expensive") list.sort((a,b)=>b.price-a.price);
+      if(sort.value === "rating") list.sort((a,b)=>b.rating-a.rating);
+
+      resultsText.textContent = list.length ? `Найдено предложений: ${list.length}` : "Ничего не найдено — попробуй изменить фильтры";
+
+      grid.innerHTML = list.map(p => `
+        <article class="card">
+          <div class="thumb">${p.icon}</div>
+          <div class="card-body">
+            <span class="tag">${p.cat} · ${p.type.toLowerCase()}</span>
+            <div class="title">${p.title}</div>
+            <div class="seller">
+              <div class="avatar">${p.seller[0]}</div>
+              <span>${p.seller}</span>
+              <span class="rating">★ ${p.rating}</span>
+            </div>
+            <div class="bottom">
+              <div class="price">${money(p.price)} <small>${p.fast ? "· ⚡ быстро" : ""}</small></div>
+              <button class="buy" data-buy="${p.id}">Купить</button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+
+      document.querySelectorAll("[data-buy]").forEach(btn => {
+        btn.addEventListener("click", () => openBuy(Number(btn.dataset.buy)));
+      });
+    }
+
+    function openBuy(id){
+      selectedProduct = products.find(p => p.id === id);
+      if(!selectedProduct) return;
+      modalTitle.textContent = "Покупка";
+      modalProduct.innerHTML = `
+        <div style="display:flex;gap:14px;align-items:center">
+          <div style="font-size:42px">${selectedProduct.icon}</div>
+          <div>
+            <div style="font-weight:900;font-size:16px">${selectedProduct.title}</div>
+            <div style="color:#9aa4af;margin-top:5px">${selectedProduct.seller} · ★ ${selectedProduct.rating}</div>
+          </div>
+        </div>
+        <div class="modal-price" style="margin-top:14px">
+          <span style="color:#9aa4af">Итого</span><strong style="font-size:24px">${money(selectedProduct.price)}</strong>
+        </div>
+      `;
+      modal.classList.add("show");
+    }
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(()=>toast.classList.remove("show"),2600);
+    }
+
+    document.querySelectorAll(".tab").forEach(btn => btn.addEventListener("click",()=>{
+      document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+      btn.classList.add("active");
+      activeTab = btn.dataset.tab;
+      render();
+    }));
+
+    document.querySelectorAll("[data-filter]").forEach(btn => btn.addEventListener("click",()=>{
+      activeTab = btn.dataset.filter;
+      document.querySelectorAll(".tab").forEach(x=>{
+        x.classList.toggle("active", x.dataset.tab === activeTab);
+      });
+      setTimeout(render, 30);
+    }));
+
+    [searchInput, sort, minPrice, maxPrice, ...document.querySelectorAll("[data-check],[data-type]")]
+      .forEach(el => el.addEventListener("input", render));
+
+    document.addEventListener("keydown", e=>{
+      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==="k"){
+        e.preventDefault(); searchInput.focus();
+      }
+      if(e.key==="Escape") modal.classList.remove("show");
+    });
+
+    document.getElementById("closeModal").onclick = ()=>modal.classList.remove("show");
+    document.getElementById("cancelModal").onclick = ()=>modal.classList.remove("show");
+
+    document.getElementById("confirmModal").onclick = ()=>{
+      if(!selectedProduct) return;
+      cart.push(selectedProduct);
+      cartCount.textContent = cart.length;
+      modal.classList.remove("show");
+      showToast("Товар добавлен в корзину 🛒");
+    };
+
+    document.getElementById("cartBtn").onclick = ()=>{
+      if(!cart.length){
+        showToast("Корзина пока пустая");
+        return;
+      }
+      const total = cart.reduce((sum,p)=>sum+p.price,0);
+      modalTitle.textContent = "Корзина";
+      modalProduct.innerHTML = `
+        <div style="font-weight:900;margin-bottom:10px">Товаров: ${cart.length}</div>
+        ${cart.map(p=>`<div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;color:#d6dbe0"><span>${p.icon} ${p.title}</span><b>${money(p.price)}</b></div>`).join("")}
+        <div class="modal-price" style="margin-top:10px;padding-top:12px;border-top:1px solid #272d35">
+          <span style="color:#9aa4af">Итого</span><strong style="font-size:24px">${money(total)}</strong>
+        </div>
+      `;
+      document.getElementById("confirmModal").textContent = "Оформить заказ";
+      modal.classList.add("show");
+    };
+
+    document.getElementById("sellBtn").onclick = ()=>showToast("Раздел продавца скоро будет доступен ✨");
+    document.getElementById("sellBannerBtn").onclick = ()=>showToast("Создание объявления: добавь авторизацию продавца ✨");
+    document.getElementById("loginBtn").onclick = ()=>{
+      modalTitle.textContent = "Вход в PlayZones";
+      modalProduct.innerHTML = `
+        <p style="margin:0 0 12px;color:#aab4bd">Это демо-версия интерфейса. Здесь можно подключить реальную авторизацию через Firebase, Supabase или свой backend.</p>
+        <input style="width:100%;padding:11px;background:#0e1115;color:white;border:1px solid #2b323a;border-radius:10px;margin-bottom:9px" placeholder="Email">
+        <input type="password" style="width:100%;padding:11px;background:#0e1115;color:white;border:1px solid #2b323a;border-radius:10px" placeholder="Пароль">
+      `;
+      document.getElementById("confirmModal").textContent = "Войти";
+      modal.classList.add("show");
+    };
+    document.getElementById("howBtn").onclick = ()=>{
+      modalTitle.textContent = "Как это работает";
+      modalProduct.innerHTML = `
+        <div style="display:grid;gap:12px">
+          <div>1️⃣ <b>Выбираешь</b> товар или услугу.</div>
+          <div>2️⃣ <b>Оплачиваешь</b> безопасным способом.</div>
+          <div>3️⃣ <b>Получаешь</b> товар и подтверждаешь сделку.</div>
+          <div>4️⃣ <b>Оставляешь</b> отзыв продавцу.</div>
+        </div>`;
+      document.getElementById("confirmModal").textContent = "Понятно";
+      modal.classList.add("show");
+    };
+
+    render();
+  </script>
 </body>
 </html>
