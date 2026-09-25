@@ -410,6 +410,88 @@
     .steam-total{margin-top:14px;padding:14px;border:1px solid rgba(255,122,26,.2);border-radius:14px;background:rgba(255,122,26,.06);display:flex;justify-content:space-between;align-items:center}
     .steam-total strong{font-size:22px}
     .steam-pay-btn{width:100%;justify-content:center;margin-top:12px;font-size:15px}
+
+    /* Steam recharge modal — PlayZones visual system */
+    .steam-modal{
+      background:rgba(4,6,9,.78);
+      backdrop-filter:blur(14px);
+    }
+    .steam-modal .steam-modal-box{
+      width:min(1040px,100%);
+      max-height:min(820px,calc(100vh - 32px));
+      overflow:auto;
+      padding:0;
+      background:
+        radial-gradient(circle at 8% 0%,rgba(255,122,26,.10),transparent 28%),
+        radial-gradient(circle at 92% 100%,rgba(73,120,255,.08),transparent 30%),
+        #11151a;
+      border:1px solid #343b45;
+      border-radius:24px;
+      box-shadow:0 30px 90px rgba(0,0,0,.55);
+    }
+    .steam-modal-top{
+      display:flex;align-items:center;justify-content:space-between;gap:20px;
+      padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.06);
+      background:rgba(18,22,27,.82);
+      position:sticky;top:0;z-index:4;backdrop-filter:blur(14px);
+    }
+    .steam-modal-brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .steam-modal-brand-logo{
+      width:42px;height:42px;border-radius:50%;overflow:hidden;flex:none;
+      box-shadow:0 0 0 1px rgba(255,255,255,.16),0 8px 22px rgba(0,0,0,.3);
+    }
+    .steam-modal-brand-logo img{width:100%;height:100%;object-fit:cover;display:block}
+    .steam-modal-title{font-size:20px;font-weight:950;letter-spacing:-.5px}
+    .steam-modal-subtitle{margin-top:3px;color:#7f8a96;font-size:12px}
+    .steam-modal-tabs{display:flex;gap:7px}
+    .steam-modal-tab{
+      border:1px solid #2c333c;background:#171c22;color:#aeb7c0;border-radius:10px;
+      padding:9px 12px;font-size:12px;font-weight:850;cursor:pointer;
+    }
+    .steam-modal-tab.active,.steam-modal-tab:hover{
+      background:var(--orange-soft);border-color:rgba(255,122,26,.4);color:#ffad67;
+    }
+    .steam-modal-body{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr);gap:22px;padding:24px}
+    .steam-order-panel,.steam-faq-panel{
+      border:1px solid #292f37;border-radius:18px;background:rgba(18,22,27,.78);
+    }
+    .steam-order-panel{padding:20px}
+    .steam-order-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:18px}
+    .steam-order-heading h3{margin:0;font-size:22px;letter-spacing:-.6px}
+    .steam-order-heading p{margin:5px 0 0;color:#7f8a96;font-size:12px;line-height:1.45}
+    .steam-status{padding:7px 9px;border-radius:9px;background:rgba(62,213,152,.09);border:1px solid rgba(62,213,152,.18);color:#71e1b1;font-size:11px;font-weight:900;white-space:nowrap}
+    .steam-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .steam-field.full{grid-column:1/-1}
+    .steam-field label{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:#aab4bf;font-weight:800;margin-bottom:7px}
+    .steam-help-link{border:0;background:none;color:#ffad67;padding:0;font-size:11px;font-weight:800;cursor:pointer}
+    .steam-input-wrap{position:relative}
+    .steam-input-wrap input{width:100%;height:48px;border:1px solid #2b323a;background:#0d1115;color:#f7f8fa;border-radius:12px;padding:0 14px;outline:none}
+    .steam-input-wrap input:focus{border-color:rgba(255,122,26,.58);box-shadow:0 0 0 4px rgba(255,122,26,.10)}
+    .steam-input-wrap input::placeholder{color:#5f6a75}
+    .steam-commission{height:48px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 13px;border:1px solid #2b323a;background:#101419;color:#9ba5af;border-radius:12px;font-size:13px}
+    .steam-commission b{color:#e1e5e8}
+    .steam-total{margin-top:14px;padding:15px 16px;border:1px solid rgba(255,122,26,.22);border-radius:14px;background:rgba(255,122,26,.055);display:flex;justify-content:space-between;align-items:center}
+    .steam-total span{color:#9aa4af;font-size:13px}.steam-total strong{font-size:24px}
+    .steam-pay-btn{width:100%;min-height:52px;justify-content:center;margin-top:12px;font-size:15px}
+    .steam-note{margin:10px 0 0;color:#66717d;font-size:11px;line-height:1.45;text-align:center}
+    .steam-faq-panel{padding:8px}
+    .steam-faq-head{padding:14px 14px 10px}
+    .steam-faq-head h3{margin:0;font-size:18px}.steam-faq-head p{margin:5px 0 0;color:#7f8a96;font-size:12px}
+    .steam-faq-item{border:1px solid transparent;border-radius:13px;margin-top:6px;overflow:hidden}
+    .steam-faq-item.open{background:#171c22;border-color:#282f38}
+    .steam-faq-q{width:100%;border:0;background:#171c22;color:#dce1e6;text-align:left;padding:15px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-weight:850;font-size:13px;cursor:pointer;border-radius:13px}
+    .steam-faq-item:not(.open) .steam-faq-q{background:#14191e}
+    .steam-faq-q span:last-child{color:#77838f;font-size:18px;transition:.2s}.steam-faq-item.open .steam-faq-q span:last-child{transform:rotate(45deg);color:#ffad67}
+    .steam-faq-a{display:none;padding:0 14px 15px;color:#8f9aa5;font-size:12px;line-height:1.55}
+    .steam-faq-item.open .steam-faq-a{display:block}
+    .steam-login-tip{margin-top:12px;padding:12px 13px;border:1px dashed #343d47;border-radius:12px;background:#101419;color:#7f8a96;font-size:11px;line-height:1.5}
+    @media(max-width:760px){
+      .steam-modal .steam-modal-box{max-height:calc(100vh - 18px);border-radius:18px}
+      .steam-modal-top{padding:16px}.steam-modal-tabs{display:none}
+      .steam-modal-body{grid-template-columns:1fr;padding:14px}
+      .steam-form-grid{grid-template-columns:1fr}.steam-field.full{grid-column:auto}
+    }
+
     @media(max-width:1100px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media(max-width:760px){
       .container{width:min(100% - 24px,1400px)}
@@ -585,31 +667,65 @@
     </div>
   </footer>
 
-  <div class="modal" id="steamModal">
-    <div class="modal-box">
-      <div class="modal-head">
-        <h3>Пополнение Steam</h3>
+  <div class="modal steam-modal" id="steamModal">
+    <div class="modal-box steam-modal-box">
+      <div class="steam-modal-top">
+        <div class="steam-modal-brand">
+          <div class="steam-modal-brand-logo">
+            <img src="data:image/jpeg;base64,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" alt="Steam">
+          </div>
+          <div><div class="steam-modal-title">Пополнение Steam</div><div class="steam-modal-subtitle">Быстрое пополнение баланса через PlayZones</div></div>
+        </div>
+        <div class="steam-modal-tabs"><button class="steam-modal-tab active" type="button">Пополнение</button><button class="steam-modal-tab" type="button" id="steamLoginHelpTab">Где найти логин?</button></div>
         <button class="close" id="closeSteamModal">✕</button>
       </div>
-      <div class="steam-modal-grid">
-        <div class="steam-field full">
-          <label for="steamLogin">Логин Steam</label>
-          <input id="steamLogin" type="text" placeholder="Введи логин аккаунта">
+
+      <div class="steam-modal-body">
+        <div class="steam-order-panel">
+          <div class="steam-order-heading">
+            <div><h3>Данные пополнения</h3><p>Укажи логин Steam и сумму, которую хочешь зачислить.</p></div>
+            <span class="steam-status">● Быстро</span>
+          </div>
+          <div class="steam-form-grid">
+            <div class="steam-field full">
+              <label for="steamLogin"><span>Логин аккаунта</span><button class="steam-help-link" type="button" id="steamLoginHelp">Где найти логин?</button></label>
+              <div class="steam-input-wrap"><input id="steamLogin" type="text" autocomplete="off" placeholder="Например: player123"></div>
+            </div>
+            <div class="steam-field">
+              <label for="steamAmount">Сумма пополнения</label>
+              <div class="steam-input-wrap"><input id="steamAmount" type="number" min="100" step="10" value="100" placeholder="100"></div>
+            </div>
+            <div class="steam-field">
+              <label>Сервисный сбор</label>
+              <div class="steam-commission"><span>Комиссия</span><b>4%</b></div>
+            </div>
+          </div>
+          <div class="steam-total"><span>К оплате</span><strong id="steamPayAmount">104 ₽</strong></div>
+          <button class="steam-open-btn steam-pay-btn" id="steamPayBtn" type="button">Оплатить 104 ₽ <span>→</span></button>
+          <p class="steam-note">Демонстрационный интерфейс: реальная оплата пока не подключена.</p>
         </div>
-        <div class="steam-field">
-          <label for="steamAmount">Сумма пополнения</label>
-          <input id="steamAmount" type="number" min="100" step="10" value="100" placeholder="100">
-        </div>
-        <div class="steam-field">
-          <label>Комиссия</label>
-          <input value="4% · сервисный сбор" disabled>
-        </div>
+
+        <aside class="steam-faq-panel">
+          <div class="steam-faq-head"><h3>Частые вопросы</h3><p>Всё необходимое перед пополнением</p></div>
+          <div class="steam-faq-item open">
+            <button class="steam-faq-q" type="button"><span>Подходящие регионы для пополнения</span><span>+</span></button>
+            <div class="steam-faq-a">Укажи свой настоящий регион Steam. Доступность пополнения зависит от региона и валюты аккаунта.</div>
+          </div>
+          <div class="steam-faq-item">
+            <button class="steam-faq-q" type="button"><span>Я из Крыма, ДНР или ЛНР</span><span>+</span></button>
+            <div class="steam-faq-a">Перед оплатой проверь, поддерживается ли твой регион текущим способом пополнения.</div>
+          </div>
+          <div class="steam-faq-item">
+            <button class="steam-faq-q" type="button"><span>Первое пополнение на аккаунте</span><span>+</span></button>
+            <div class="steam-faq-a">Для нового аккаунта могут действовать дополнительные ограничения Steam. Если пополнение не проходит, проверь регион и валюту аккаунта.</div>
+          </div>
+          <div class="steam-faq-item">
+            <button class="steam-faq-q" type="button"><span>Что делать, если указан неверный логин</span><span>+</span></button>
+            <div class="steam-faq-a">До оплаты внимательно проверь логин. После передачи заказа на обработку изменить получателя может быть невозможно.</div>
+          </div>
+          <div class="steam-login-tip"><b style="color:#c8d0d7">Подсказка:</b> нужен именно логин аккаунта Steam, а не отображаемое имя профиля или ссылка на профиль.</div>
+        </aside>
       </div>
-      <div class="steam-total">
-        <span>К оплате</span><strong id="steamPayAmount">104 ₽</strong>
-      </div>
-      <button class="steam-open-btn steam-pay-btn" id="steamPayBtn" type="button">Оплатить 104 ₽ <span>→</span></button>
-      <p style="margin:10px 0 0;color:#727e8b;font-size:11px">Демонстрационный интерфейс: реальная оплата пока не подключена.</p>
     </div>
   </div>
 
@@ -804,6 +920,27 @@
     }));
     steamAmount.addEventListener("input",updateSteamTotal);
     document.getElementById("closeSteamModal").onclick=()=>steamModal.classList.remove("show");
+    // Steam FAQ interactions
+    document.querySelectorAll(".steam-faq-q").forEach(btn=>btn.addEventListener("click",()=>{
+      btn.closest(".steam-faq-item").classList.toggle("open");
+    }));
+    const focusSteamLogin=()=>{
+      steamModal.classList.add("show");
+      setTimeout(()=>steamLogin.focus(),80);
+    };
+    document.getElementById("steamLoginHelp").onclick=focusSteamLogin;
+    document.getElementById("steamLoginHelpTab").onclick=()=>{
+      steamModal.classList.add("show");
+      const item=document.querySelectorAll(".steam-faq-item")[0];
+      document.querySelectorAll(".steam-faq-item").forEach(el=>el.classList.remove("open"));
+      const tip=document.querySelectorAll(".steam-faq-item")[3];
+      tip.classList.add("open");
+      tip.scrollIntoView({behavior:"smooth",block:"nearest"});
+    };
+    steamModal.addEventListener("click",e=>{
+      if(e.target===steamModal) steamModal.classList.remove("show");
+    });
+
     steamPayBtn.onclick=()=>{
       if(!steamLogin.value.trim()){showToast("Введи логин Steam"); steamLogin.focus(); return;}
       if(Number(steamAmount.value)<100){showToast("Минимальная сумма — 100 ₽"); return;}
