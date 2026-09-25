@@ -211,6 +211,21 @@
     }
     .toast.show{display:block;animation:toast .2s ease}
     @keyframes toast{from{transform:translateY(8px);opacity:0}to{transform:translateY(0);opacity:1}}
+
+    .steam-feature,.game-card,.card,.feature,.banner,.steam-large{
+      opacity:0; transform:translateY(16px); animation:riseIn .65s ease forwards;
+    }
+    .game-card:nth-child(2){animation-delay:.05s}.game-card:nth-child(3){animation-delay:.1s}
+    .game-card:nth-child(4){animation-delay:.15s}.game-card:nth-child(5){animation-delay:.2s}.game-card:nth-child(6){animation-delay:.25s}
+    .card:nth-child(2){animation-delay:.05s}.card:nth-child(3){animation-delay:.1s}.card:nth-child(4){animation-delay:.15s}
+    .card:nth-child(5){animation-delay:.2s}.card:nth-child(6){animation-delay:.25s}
+    @keyframes riseIn{to{opacity:1;transform:translateY(0)}}
+    .steam-logo,.steam-large-logo{font-weight:1000;letter-spacing:1px;color:#fff;border:2px solid rgba(255,255,255,.7);padding:8px 10px;border-radius:6px;display:inline-block;transform:skew(-8deg);box-shadow:0 8px 25px rgba(255,255,255,.08)}
+    .steam-btn{margin-top:18px}
+    .steam-large{display:flex;align-items:center;gap:24px;padding:25px 28px;border:1px solid #39414b;border-radius:22px;background:linear-gradient(100deg,#172029,#11161b);cursor:pointer}
+    .steam-large-logo{font-size:24px;flex:none}.steam-large-content{flex:1}.steam-large h2{margin:8px 0 5px}.steam-large p{margin:0;color:var(--muted)}
+    .game-section{padding-top:8px}
+    @media(max-width:720px){.steam-large{flex-direction:column;align-items:flex-start}.steam-large .btn{width:100%}}
     @media(max-width:1050px){
       .hero{grid-template-columns:1fr}
       .categories{grid-template-columns:repeat(3,1fr)}
@@ -247,7 +262,6 @@
       <div class="search">
         <span class="icon">⌕</span>
         <input id="searchInput" type="search" placeholder="Найти игру, валюту, аккаунт или услугу..." />
-        <kbd>Ctrl K</kbd>
       </div>
 
       <div class="nav-actions">
@@ -269,44 +283,52 @@
           <a class="btn btn-primary" href="#market">Смотреть предложения →</a>
           <button class="btn" id="howBtn">Как это работает?</button>
         </div>
-        <div class="hero-stats">
-          <div><b>12 840+</b> объявлений</div>
-          <div><b>4 900+</b> продавцов</div>
-          <div><b>24/7</b> поддержка</div>
-        </div>
+
       </div>
 
-      <div class="promo">
+      <div class="promo steam-feature" onclick="document.getElementById('steamSection').scrollIntoView({behavior:'smooth'})">
         <div class="promo-top">
-          <span class="promo-badge">ПРЕДЛОЖЕНИЕ ДНЯ</span>
-          <span class="promo-game">🎮</span>
+          <span class="promo-badge">🔥 ПОПУЛЯРНО</span>
+          <div class="steam-logo">STEAM</div>
         </div>
         <div>
           <h3>Пополнение Steam</h3>
-          <p>Мгновенное пополнение с отзывами продавца и прозрачной комиссией.</p>
+          <p>Выбери удобный номинал и пополни баланс быстро. Отдельный раздел с предложениями продавцов.</p>
           <div class="promo-price">
-            <strong>от 499 ₽</strong>
+            <strong>от 399 ₽</strong>
             <span>⚡ быстро</span>
           </div>
+          <button class="btn btn-primary steam-btn" onclick="event.stopPropagation(); document.getElementById('steamSection').scrollIntoView({behavior:'smooth'})">Перейти к пополнению →</button>
         </div>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section game-section">
       <div class="section-head">
         <div>
-          <h2>Категории</h2>
-          <p>Немного всего, чтобы быстро найти нужное</p>
+          <h2>Игры</h2>
+          <p>Заходи прямо в нужную игру</p>
         </div>
-        <a class="link" href="#market">Все категории →</a>
       </div>
-      <div class="categories">
-        <a class="cat" href="#market" data-filter="Валюта"><span class="cat-icon">💰</span><span><strong>Игровая валюта</strong><span>GTA, Roblox и др.</span></span></a>
-        <a class="cat" href="#market" data-filter="Предметы"><span class="cat-icon">🧤</span><span><strong>Предметы</strong><span>Скины и лут</span></span></a>
-        <a class="cat" href="#market" data-filter="Аккаунты"><span class="cat-icon">👤</span><span><strong>Аккаунты</strong><span>Игры и сервисы</span></span></a>
-        <a class="cat" href="#market" data-filter="Услуги"><span class="cat-icon">⚡</span><span><strong>Услуги</strong><span>Прокачка и помощь</span></span></a>
-        <a class="cat" href="#market" data-filter="Подписки"><span class="cat-icon">💎</span><span><strong>Подписки</strong><span>Game Pass и др.</span></span></a>
-        <a class="cat" href="#market" data-filter="Подарки"><span class="cat-icon">🎁</span><span><strong>Подарки</strong><span>Ключи и бонусы</span></span></a>
+      <div class="categories game-categories">
+        <a class="cat game-card" href="#market" data-game="Brawl Stars"><span class="cat-icon">⭐</span><span><strong>Brawl Stars</strong><span>Гемы, аккаунты, услуги</span></span></a>
+        <a class="cat game-card" href="#steamSection"><span class="cat-icon">🎮</span><span><strong>Steam</strong><span>Пополнение и подарки</span></span></a>
+        <a class="cat game-card" href="#market" data-game="CS2"><span class="cat-icon">🔫</span><span><strong>CS2</strong><span>Скины и предметы</span></span></a>
+        <a class="cat game-card" href="#market" data-game="Minecraft"><span class="cat-icon">🟩</span><span><strong>Minecraft</strong><span>Аккаунты и услуги</span></span></a>
+        <a class="cat game-card" href="#market" data-game="Roblox"><span class="cat-icon">🟥</span><span><strong>Roblox</strong><span>Robux и аккаунты</span></span></a>
+        <a class="cat game-card" href="#market" data-game="Fortnite"><span class="cat-icon">🟪</span><span><strong>Fortnite</strong><span>Скины и аккаунты</span></span></a>
+      </div>
+    </section>
+
+    <section class="section" id="steamSection">
+      <div class="steam-large">
+        <div class="steam-large-logo">STEAM</div>
+        <div class="steam-large-content">
+          <span class="promo-badge">STEAM</span>
+          <h2>Пополнение Steam</h2>
+          <p>Выбери сумму пополнения и быстро перейди к предложениям продавцов.</p>
+        </div>
+        <button class="btn btn-primary" onclick="setSteamFilter()">Смотреть пополнения →</button>
       </div>
     </section>
 
@@ -390,7 +412,7 @@
   <footer>
     <div class="container foot">
       <div><strong>PlayZones</strong> · игровой маркетплейс</div>
-      <div class="foot-links"><a href="#market">Каталог</a><a href="#">Поддержка</a><a href="#">Правила</a><a href="#">О нас</a></div>
+      <div class="foot-links"><a href="#market">Каталог</a><a href="https://t.me/PlayZonesHelp" target="_blank" rel="noopener">Поддержка</a><a href="#">Правила</a><a href="#">О нас</a></div>
     </div>
   </footer>
 
@@ -412,18 +434,19 @@
 
   <script>
     const products = [
-      {id:1, cat:"Валюта", type:"Товар", title:"GTA Online — 5 000 000 GTA$", seller:"OrangeFox", rating:4.98, price:799, icon:"💰", fast:true, safe:true},
-      {id:2, cat:"Предметы", type:"Товар", title:"CS2 — кейс + набор перчаток", seller:"PixelShop", rating:4.96, price:1490, icon:"🧤", fast:true, safe:true},
-      {id:3, cat:"Аккаунты", type:"Товар", title:"Fortnite аккаунт · 78 скинов", seller:"NovaStore", rating:4.94, price:2190, icon:"👤", fast:false, safe:true},
-      {id:4, cat:"Услуги", type:"Услуга", title:"Minecraft — помощь с постройкой сервера", seller:"BuildMaster", rating:5.00, price:650, icon:"⚡", fast:false, safe:true},
-      {id:5, cat:"Подписки", type:"Товар", title:"Xbox Game Pass Ultimate · 1 месяц", seller:"GameRush", rating:4.92, price:399, icon:"💎", fast:true, safe:true},
-      {id:6, cat:"Валюта", type:"Товар", title:"Roblox — 1700 Robux", seller:"RbxPlanet", rating:4.89, price:999, icon:"🪙", fast:true, safe:false},
-      {id:7, cat:"Услуги", type:"Услуга", title:"Valorant — подбор команды и коучинг", seller:"AimCoach", rating:4.97, price:1200, icon:"🎯", fast:false, safe:true},
-      {id:8, cat:"Подарки", type:"Товар", title:"Steam Gift Card — 1000 ₽", seller:"OrangeFox", rating:4.98, price:1050, icon:"🎁", fast:true, safe:true},
-      {id:9, cat:"Предметы", type:"Товар", title:"Dota 2 — Arcana предмет", seller:"GGTrade", rating:4.91, price:1690, icon:"🌀", fast:true, safe:true}
+      {id:1, game:"GTA Online", cat:"Валюта", type:"Товар", title:"GTA Online — 5 000 000 GTA$", seller:"OrangeFox", rating:4.98, price:799, icon:"💰", fast:true, safe:true},
+      {id:2, game:"CS2", cat:"Предметы", type:"Товар", title:"CS2 — кейс + набор перчаток", seller:"PixelShop", rating:4.96, price:1490, icon:"🧤", fast:true, safe:true},
+      {id:3, game:"Fortnite", cat:"Аккаунты", type:"Товар", title:"Fortnite аккаунт · 78 скинов", seller:"NovaStore", rating:4.94, price:2190, icon:"👤", fast:false, safe:true},
+      {id:4, game:"Minecraft", cat:"Услуги", type:"Услуга", title:"Minecraft — помощь с постройкой сервера", seller:"BuildMaster", rating:5.00, price:650, icon:"⚡", fast:false, safe:true},
+      {id:5, game:"Steam", cat:"Подписки", type:"Товар", title:"Xbox Game Pass Ultimate · 1 месяц", seller:"GameRush", rating:4.92, price:399, icon:"💎", fast:true, safe:true},
+      {id:6, game:"Roblox", cat:"Валюта", type:"Товар", title:"Roblox — 1700 Robux", seller:"RbxPlanet", rating:4.89, price:999, icon:"🪙", fast:true, safe:false},
+      {id:7, game:"Valorant", cat:"Услуги", type:"Услуга", title:"Valorant — подбор команды и коучинг", seller:"AimCoach", rating:4.97, price:1200, icon:"🎯", fast:false, safe:true},
+      {id:8, game:"Steam", cat:"Подарки", type:"Товар", title:"Steam Gift Card — 1000 ₽", seller:"OrangeFox", rating:4.98, price:1050, icon:"🎁", fast:true, safe:true},
+      {id:9, game:"Dota 2", cat:"Предметы", type:"Товар", title:"Dota 2 — Arcana предмет", seller:"GGTrade", rating:4.91, price:1690, icon:"🌀", fast:true, safe:true}
     ];
 
     let activeTab = "Все";
+    let activeGame = "Все";
     let cart = [];
     let selectedProduct = null;
 
@@ -446,7 +469,8 @@
       const q = searchInput.value.trim().toLowerCase();
 
       if(activeTab !== "Все") list = list.filter(p => p.cat === activeTab);
-      if(q) list = list.filter(p => (p.title + " " + p.seller + " " + p.cat).toLowerCase().includes(q));
+      if(activeGame !== "Все") list = list.filter(p => p.game === activeGame);
+      if(q) list = list.filter(p => (p.title + " " + p.seller + " " + p.cat + " " + p.game).toLowerCase().includes(q));
 
       const min = Number(minPrice.value || 0);
       const max = Number(maxPrice.value || Infinity);
@@ -470,7 +494,7 @@
         <article class="card">
           <div class="thumb">${p.icon}</div>
           <div class="card-body">
-            <span class="tag">${p.cat} · ${p.type.toLowerCase()}</span>
+            <span class="tag">${p.game} · ${p.cat}</span>
             <div class="title">${p.title}</div>
             <div class="seller">
               <div class="avatar">${p.seller[0]}</div>
@@ -515,6 +539,11 @@
       setTimeout(()=>toast.classList.remove("show"),2600);
     }
 
+    document.querySelectorAll(".game-card[data-game]").forEach(btn => btn.addEventListener("click",()=>{
+      activeGame = btn.dataset.game;
+      render();
+    }));
+
     document.querySelectorAll(".tab").forEach(btn => btn.addEventListener("click",()=>{
       document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
       btn.classList.add("active");
@@ -534,9 +563,6 @@
       .forEach(el => el.addEventListener("input", render));
 
     document.addEventListener("keydown", e=>{
-      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase()==="k"){
-        e.preventDefault(); searchInput.focus();
-      }
       if(e.key==="Escape") modal.classList.remove("show");
     });
 
@@ -552,6 +578,7 @@
     };
 
     document.getElementById("cartBtn").onclick = ()=>{
+
       if(!cart.length){
         showToast("Корзина пока пустая");
         return;
@@ -560,14 +587,45 @@
       modalTitle.textContent = "Корзина";
       modalProduct.innerHTML = `
         <div style="font-weight:900;margin-bottom:10px">Товаров: ${cart.length}</div>
-        ${cart.map(p=>`<div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;color:#d6dbe0"><span>${p.icon} ${p.title}</span><b>${money(p.price)}</b></div>`).join("")}
+        ${cart.map((p,i)=>`<div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;color:#d6dbe0"><span>${p.icon} ${p.title}</span><span><b>${money(p.price)}</b> <button class="remove-cart" data-remove="${i}" style="border:0;background:#262c33;color:#ff8585;border-radius:7px;padding:3px 6px">×</button></span></div>`).join("")}
+        <button id="clearCart" class="btn" style="width:100%;margin-top:10px;color:#ff8b8b">Очистить корзину</button>
         <div class="modal-price" style="margin-top:10px;padding-top:12px;border-top:1px solid #272d35">
           <span style="color:#9aa4af">Итого</span><strong style="font-size:24px">${money(total)}</strong>
         </div>
       `;
       document.getElementById("confirmModal").textContent = "Оформить заказ";
       modal.classList.add("show");
+      document.querySelectorAll(".remove-cart").forEach(btn=>btn.onclick=()=>{
+        cart.splice(Number(btn.dataset.remove),1);
+        cartCount.textContent=cart.length;
+        modal.classList.remove("show");
+        document.getElementById("cartBtn").click();
+      });
+      const clear = document.getElementById("clearCart");
+      if(clear) clear.onclick=()=>{
+        cart=[];
+        cartCount.textContent="0";
+        modal.classList.remove("show");
+        showToast("Корзина очищена");
+      };
     };
+
+    function setSteamFilter(){
+      activeGame = "Steam";
+      document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+      activeTab = "Все";
+      document.getElementById("market").scrollIntoView({behavior:"smooth"});
+      render();
+    }
+
+    document.getElementById("confirmModal").addEventListener("click", function(){
+      if(modalTitle.textContent === "Корзина" && cart.length){
+        cart = [];
+        cartCount.textContent = "0";
+        modal.classList.remove("show");
+        showToast("Корзина очищена после оформления демо-заказа");
+      }
+    });
 
     document.getElementById("sellBtn").onclick = ()=>showToast("Раздел продавца скоро будет доступен ✨");
     document.getElementById("sellBannerBtn").onclick = ()=>showToast("Создание объявления: добавь авторизацию продавца ✨");
