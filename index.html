@@ -468,8 +468,8 @@
     .steam-input-wrap input{width:100%;height:48px;border:1px solid #2b323a;background:#0d1115;color:#f7f8fa;border-radius:12px;padding:0 14px;outline:none}
     .steam-input-wrap input:focus{border-color:rgba(255,122,26,.58);box-shadow:0 0 0 4px rgba(255,122,26,.10)}
     .steam-input-wrap input::placeholder{color:#5f6a75}
-    .steam-commission{height:48px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 13px;border:1px solid #2b323a;background:#101419;color:#9ba5af;border-radius:12px;font-size:13px}
-    .steam-commission b{color:#e1e5e8}
+    .steam-commission{height:48px;display:flex;align-items:center;justify-content:center;gap:10px;padding:0 13px;border:1px solid #2b323a;background:#101419;color:#e1e5e8;border-radius:12px;font-size:13px;cursor:pointer;transition:.2s}
+    .steam-commission b{color:#e1e5e8}.steam-commission:hover{border-color:#8f2cff;background:#17131d;transform:translateY(-1px)}
     .steam-total{margin-top:14px;padding:15px 16px;border:1px solid rgba(255,122,26,.22);border-radius:14px;background:rgba(255,122,26,.055);display:flex;justify-content:space-between;align-items:center}
     .steam-total span{color:#9aa4af;font-size:13px}.steam-total strong{font-size:24px}
     .steam-pay-btn{width:100%;min-height:52px;justify-content:center;margin-top:12px;font-size:15px}
@@ -757,11 +757,11 @@
             </div>
             <div class="steam-field">
               <label>Сервисный сбор</label>
-              <div class="steam-commission"><span>Комиссия</span><b>4%</b></div>
+              <button class="steam-commission" id="steamPromoBtn" type="button"><span>Промокод</span><b>›</b></button>
             </div>
           </div>
-          <div class="steam-total"><span>К оплате</span><strong id="steamPayAmount">104 ₽</strong></div>
-          <button class="steam-open-btn steam-pay-btn" id="steamPayBtn" type="button">Оплатить 104 ₽ <span>→</span></button>
+          <div class="steam-total"><span>К оплате</span><strong id="steamPayAmount">110 ₽</strong></div>
+          <button class="steam-open-btn steam-pay-btn" id="steamPayBtn" type="button">Оплатить 110 ₽ <span>→</span></button>
           <p class="steam-note">Демонстрационный интерфейс: реальная оплата пока не подключена.</p>
         </div>
 
@@ -769,19 +769,19 @@
           <div class="steam-faq-head"><h3>Частые вопросы</h3><p>Всё необходимое перед пополнением</p></div>
           <div class="steam-faq-item open">
             <button class="steam-faq-q" type="button"><span>Подходящие регионы для пополнения</span><span>+</span></button>
-            <div class="steam-faq-a">Укажи свой настоящий регион Steam. Доступность пополнения зависит от региона и валюты аккаунта.</div>
+            <div class="steam-faq-a">Россия, Беларусь, Казахстан, Туркменистан, Узбекистан, Кыргызстан, Молдова, Таджикистан.</div>
           </div>
           <div class="steam-faq-item">
             <button class="steam-faq-q" type="button"><span>Я из Крыма, ДНР или ЛНР</span><span>+</span></button>
-            <div class="steam-faq-a">Перед оплатой проверь, поддерживается ли твой регион текущим способом пополнения.</div>
+            <div class="steam-faq-a">1. Завершите сессию Steam на всех устройствах, где выполнен вход с нужного аккаунта.<br>2. Не заходите в свой аккаунт в течение получаса, чтобы сервис обновил информацию о вашем подключении. Затем пополните свой баланс не заходя в аккаунт.</div>
           </div>
           <div class="steam-faq-item">
             <button class="steam-faq-q" type="button"><span>Первое пополнение на аккаунте</span><span>+</span></button>
-            <div class="steam-faq-a">Для нового аккаунта могут действовать дополнительные ограничения Steam. Если пополнение не проходит, проверь регион и валюту аккаунта.</div>
+            <div class="steam-faq-a">При первом пополнении аккаунта может произойти смена региона. Чтобы сохранить текущий регион аккаунта необходимо добавить в библиотеку игр Steam две любые бесплатные игры, имея IP адрес страны, региону которой принадлежит ваш Steam аккаунт.</div>
           </div>
           <div class="steam-faq-item">
             <button class="steam-faq-q" type="button"><span>Что делать, если указан неверный логин</span><span>+</span></button>
-            <div class="steam-faq-a">До оплаты внимательно проверь логин. После передачи заказа на обработку изменить получателя может быть невозможно.</div>
+            <div class="steam-faq-a">Если вы указали логин, которого не существует, сайт попросит указать правильный логин. Но если такой логин есть, деньги отправятся на другой аккаунт и вернуть их будет НЕВОЗМОЖНО!<br>Внимательно проверяйте логин перед оплатой!</div>
           </div>
           <div class="steam-login-tip"><b style="color:#c8d0d7">Подсказка:</b> нужен именно логин аккаунта Steam, а не отображаемое имя профиля или ссылка на профиль.</div>
         </aside>
@@ -971,7 +971,7 @@
     }
     function updateSteamTotal(){
       const amount=Math.max(0,Number(steamAmount.value||0));
-      const total=Math.ceil(amount*1.04);
+      const total=Math.ceil(amount*1.10);
       steamPayAmount.textContent=money(total);
       steamPayBtn.innerHTML=`Оплатить ${money(total)} <span>→</span>`;
     }
@@ -984,6 +984,9 @@
     document.querySelectorAll(".steam-faq-q").forEach(btn=>btn.addEventListener("click",()=>{
       btn.closest(".steam-faq-item").classList.toggle("open");
     }));
+    document.getElementById("steamPromoBtn")?.addEventListener("click",()=>{
+      showToast("Промокоды пока недоступны");
+    });
     const focusSteamLogin=()=>{
       steamModal.classList.add("show");
       setTimeout(()=>steamLogin.focus(),80);
